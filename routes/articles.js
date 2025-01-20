@@ -55,4 +55,30 @@ router.post("/", ensureAuthenticated, async (req, res) => {
   }
 });
 
+// // Get articles uploaded by the logged-in user
+// router.get("/user", ensureAuthenticated, async (req, res) => {
+//   try {
+//     const userId = req.user._id; // Get the logged-in user's ID from the session
+//     const articles = await Article.find({ userId }).sort({ createdAt: -1 }); // Fetch user's articles
+//     res.status(200).json(articles);
+//   } catch (error) {
+//     console.error("Error fetching user articles:", error);
+//     res.status(500).json({ message: "Error fetching user articles" });
+//   }
+// });
+
+// Get articles by a specific user
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const articles = await Article.find({ userId }).sort({ createdAt: -1 }); // Get articles by userId
+    res.status(200).json(articles);
+  } catch (error) {
+    console.error("Error fetching user's articles:", error);
+    res.status(500).json({ message: "Error fetching user's articles" });
+  }
+});
+
+
+
 module.exports = router;

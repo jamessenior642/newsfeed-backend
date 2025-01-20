@@ -54,6 +54,7 @@ app.use(passport.session());
 // Routes
 app.use("/auth", require("./routes/auth")); // Auth routes
 app.use("/api/articles", require("./routes/articles")); // Article routes
+app.use("/users", require("./routes/users"));
 
 // Root route
 app.get("/", (req, res) => {
