@@ -30,13 +30,21 @@ mongoose
   .catch((error) => logger.error("MongoDB connection error:", error));
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000", // Allow frontend origin
+  credentials: true, // Allow credentials (cookies)
+}));
 app.use(express.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to `true` for HTTPS (for local development, leave it as false)
+      httpOnly: true, // Prevent JavaScript access to cookies
+      sameSite: "strict", // Ensures cookies are only sent for same-site requests
+    },
   })
 );
 app.use(passport.initialize());

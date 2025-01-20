@@ -15,6 +15,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+    res.status(200).json(article);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching article" });
+  }
+});
+
+
 // Post a new article (only for logged-in users)
 router.post("/", ensureAuthenticated, async (req, res) => {
   try {
