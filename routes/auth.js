@@ -33,4 +33,37 @@ router.get("/handle-redirect", (req, res) => {
   res.redirect(returnTo); // Redirect to the original page
 });
 
+// Add auth check middleware
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: "Not authenticated" });
+};
+
+router.get("/status", (req, res) => {
+  res.json({
+    loggedIn: req.isAuthenticated(),
+    user: req.user || null
+  });
+});
+
+
+// Logout route
+router.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ message: "Error logging out" });
+    }
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destruction error:", err);
+      }
+      res.json({ success: true });
+    });
+  });
+});
+
+
 module.exports = router;
