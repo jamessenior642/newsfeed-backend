@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+server.log
 
 # production
 /build
