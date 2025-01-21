@@ -42,12 +42,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // HTTPS only in production
-      httpOnly: true, // Prevent JavaScript access
-      sameSite: "lax", // Necessary for OAuth
-      domain: process.env.NODE_ENV === "production" ? undefined : undefined, // Leave undefined for cross-origin
+      secure: process.env.NODE_ENV === "production",  // Ensure cookies are secure in production (requires HTTPS)
+      httpOnly: true,  // Prevent JavaScript access to cookies
+      sameSite: 'lax', // Allows cookies to be sent with cross-site requests (like OAuth)
+      domain: process.env.NODE_ENV === 'production' ? 'newsfeed-backend.onrender.com' : undefined, // Set the domain to match the frontend URL
     },
-    proxy: process.env.NODE_ENV === "production",
+    proxy: process.env.NODE_ENV === "production",  // Trust proxy headers in production
   })
 );
 app.use(passport.initialize());
