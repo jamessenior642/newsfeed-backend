@@ -45,7 +45,7 @@ app.use(
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       sameSite: 'lax',
-      domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : undefined, // Add your domain // Changed from 'strict' to 'lax' for OAuth flow
+      domain: process.env.NODE_ENV === 'production' ? 'newssumm.netlify.app' : undefined, // Add your domain // Changed from 'strict' to 'lax' for OAuth flow
       //maxAge: 24 * 60 * 60 * 1000 // 24 hours
     },
     proxy: process.env.NODE_ENV === 'production' // Trust proxy in production
