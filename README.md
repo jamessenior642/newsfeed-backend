@@ -18,6 +18,7 @@ This is the backend application for the News Summarizer project. It is built usi
   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
   SESSION_SECRET=your-session-secret
   FRONTEND_URL=https://your-frontend-url.netlify.app
+  BACKEND_URL=https://your-backend.onrender.com
   ```
 
 ## Getting Started
