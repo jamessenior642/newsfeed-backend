@@ -42,13 +42,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      sameSite: 'lax',
-      domain: process.env.NODE_ENV === 'production' ? 'newssumm.netlify.app' : undefined, // Add your domain // Changed from 'strict' to 'lax' for OAuth flow
-      //maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      secure: process.env.NODE_ENV === "production", // HTTPS only in production
+      httpOnly: true, // Prevent JavaScript access
+      sameSite: "lax", // Necessary for OAuth
+      domain: process.env.NODE_ENV === "production" ? undefined : undefined, // Leave undefined for cross-origin
     },
-    proxy: process.env.NODE_ENV === 'production' // Trust proxy in production
+    proxy: process.env.NODE_ENV === "production",
   })
 );
 app.use(passport.initialize());
