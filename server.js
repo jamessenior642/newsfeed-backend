@@ -44,9 +44,11 @@ app.use(
     cookie: {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: 'lax', // Changed from 'strict' to 'lax' for OAuth flow
+      sameSite: 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : undefined, // Add your domain // Changed from 'strict' to 'lax' for OAuth flow
       //maxAge: 24 * 60 * 60 * 1000 // 24 hours
     },
+    proxy: process.env.NODE_ENV === 'production' // Trust proxy in production
   })
 );
 app.use(passport.initialize());

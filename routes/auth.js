@@ -20,10 +20,20 @@ router.get(
 // Google OAuth callback
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login", // Redirect to login if authentication fails
-    successRedirect: "/auth/handle-redirect", // Handle redirect in a separate route
-  })
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    // Set cookie manually if needed
+    res.cookie('connect.sid', req.sessionID, {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : undefined
+    });
+    
+    const returnTo = req.session.returnTo || FRONTEND_URL;
+    delete req.session.returnTo;
+    res.redirect(returnTo);
+  }
 );
 
 // Handle the final redirect after successful login
