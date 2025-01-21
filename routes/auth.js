@@ -43,11 +43,14 @@ const isAuthenticated = (req, res, next) => {
 };
 
 router.get("/status", (req, res) => {
+  console.log("Session:", req.session); // Check if the session exists
+  console.log("User:", req.user); // Check if the user is populated
   res.json({
     loggedIn: req.isAuthenticated(),
-    user: req.user || null
+    user: req.user || null,
   });
 });
+
 
 
 // Logout route
