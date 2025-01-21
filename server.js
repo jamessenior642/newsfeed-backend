@@ -8,6 +8,7 @@ require("dotenv").config(); // Load environment variables
 require("./config/passport-config"); // Passport configuration
 
 const app = express();
+FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // Setup logger
 const logger = winston.createLogger({
@@ -31,7 +32,7 @@ mongoose
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:3000", // Allow frontend origin
+  origin: FRONTEND_URL, // Allow frontend origin
   credentials: true, // Allow credentials (cookies)
 }));
 app.use(express.json());
