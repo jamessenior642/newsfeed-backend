@@ -9,7 +9,7 @@ require("./config/passport-config"); // Passport configuration
 
 const app = express();
 FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
-
+const isProduction = process.env.NODE_ENV === 'production';
 // Setup logger
 const logger = winston.createLogger({
   level: "info",
@@ -42,17 +42,18 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",  // Ensure cookies are secure in production (requires HTTPS)
-      httpOnly: true,  // Prevent JavaScript access to cookies
-      sameSite: 'lax', // Allows cookies to be sent with cross-site requests (like OAuth)
-      domain: process.env.NODE_ENV === 'production' ? 'newsfeed-backend.onrender.com' : undefined, // Set the domain to match the frontend URL
+      secure: isProduction,                // Only use secure cookies in production
+      httpOnly: true,
+      sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in prod, 'lax' (or 'strict') locally
+      // domain: (omit or conditionally set if you own a single top-level domain)
     },
-    proxy: process.env.NODE_ENV === "production",  // Trust proxy headers in production
+    proxy: isProduction,
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
-
+// domain: process.env.NODE_ENV === 'production' ? 'newsfeed-backend.onrender.com' : undefined, // Set the domain to match the frontend URL
 // Routes
 app.use("/auth", require("./routes/auth")); // Auth routes
 app.use("/api/articles", require("./routes/articles")); // Article routes
